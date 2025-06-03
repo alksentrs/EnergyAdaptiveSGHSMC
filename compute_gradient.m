@@ -10,5 +10,5 @@ function grad_U = compute_gradient(x, y, x_prev, params)
     state_error = x - x_prev;
     
     % Combined gradient (both terms are 6x1 vectors)
-    grad_U = -params.R \ measurement_error + 2 * params.alpha * state_error;
+    grad_U = [-params.R \ measurement_error; 0; 0; 0; 0] + 2 * params.alpha * state_error;
 end
