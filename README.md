@@ -1,4 +1,4 @@
-# Energy-Adaptive SGHSMC Particle Filter for Quadrupedal Robot Tracking
+# Energy-Adaptive SGHSMC Particle Filter for Tracking
 
 This repository contains a MATLAB implementation of the Energy-Adaptive Stochastic Gradient Hamiltonian Monte Carlo (SGHSMC) particle filter, as described in the paper:
 
