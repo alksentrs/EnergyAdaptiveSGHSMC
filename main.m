@@ -29,7 +29,7 @@ params.epsilon = 0.001;
 params.m = 50;
 params.C = 2.0;
 params.B = 0.001;
-params.R = 1.e-1*eye(6);      % Measurement noise covariance (6x6 for full state)
+params.R = 1.e-1*eye(2);      % Measurement noise covariance (2x2 for partial state)
 
 % Target trajectory (example: circular path)
 target_radius = 2;
@@ -48,7 +48,7 @@ w = ones(M, 1) / M;        % M x 1, initial weights
 x_hist = zeros(6, N+1, M);
 r_hist = zeros(6, N+1, M);
 w_hist = zeros(M, N+1);
-y_hist = zeros(6, N+1);
+y_hist = zeros(2, N+1);
 
 x_hist(:,1,:) = x;
 r_hist(:,1,:) = r;
@@ -56,11 +56,7 @@ w_hist(:,1) = w;
 
 for k = 1:N
     % Add measurement noise
-    y = [target_x(k); target_y(k); 
-         -target_radius * target_omega * sin(target_omega * t(k));
-          target_radius * target_omega * cos(target_omega * t(k));
-         target_theta(k); 0] ...
-        + mvnrnd(zeros(6,1), params.R)';
+    y = [target_x(k); target_y(k)] + mvnrnd(zeros(2,1), params.R)';
 
     for m = 1:M
         % Predict state for particle m
