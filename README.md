@@ -45,6 +45,7 @@ You can tune the following parameters in `main.m`:
 ## Output
 - **Trajectory plots**: Show the true target, noisy measurements, and the filter's estimate.
 - **Tracking plots**: Show position and velocity tracking over time.
+- ![Screenshot 2025-06-02 220743](https://github.com/user-attachments/assets/617ba170-78f8-43b9-b6ed-607eb43dcba0)
 
 ## Reference
 If you use this code, please cite the original paper:
