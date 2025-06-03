@@ -12,7 +12,7 @@ N = T/dt;        % Number of time steps
 t = 0:dt:T;      % Time vector
 
 % Number of particles
-M = 200;
+M = 100;
 
 % Robot parameters
 robot.mass = 20;     % Robot mass (kg)
@@ -111,48 +111,9 @@ for k = 1:N
     y_hist(:,k+1) = y;
 end
 
+y_hist(:,1) = y_hist(:,2);
+
 % For plotting: use the weighted mean trajectory
 x_mean = mean(x_hist, 3);
 
 plot_results(t, x_mean, target_x, target_y, y_hist);
-
-function x_pred = predict_state(x, dt)
-    % Simple prediction model
-    pos = x(1:2);
-    vel = x(3:4);
-    theta = x(5);
-    omega = x(6);
-    
-    % Update position
-    pos_next = pos + dt * vel;
-    
-    % Update angle
-    theta_next = theta + dt * omega;
-    
-    x_pred = [pos_next; vel; theta_next; omega];
-end
-
-function M = update_mass_matrix(dx, params)
-    % Update mass matrix according to state change rate
-    M = diag(params.beta0 + params.beta1 * exp(-params.lambda * abs(dx)));
-end
-
-function grad_U = compute_gradient(x, y, x_prev, params)
-    % Compute gradient of potential energy
-    % Includes measurement error and state transition terms
-    
-    % Measurement error term
-    h_x = h(x);
-    measurement_error = y - h_x;
-    
-    % State transition term
-    state_error = x - x_prev;
-    
-    % Combined gradient (both terms are 6x1 vectors)
-    grad_U = -params.R \ measurement_error + 2 * params.alpha * state_error;
-end
-
-function y = h(x)
-    % Measurement model (full state)
-    y = x;  % In this case, we can measure the full state
-end 
